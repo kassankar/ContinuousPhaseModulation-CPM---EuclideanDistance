@@ -4,20 +4,20 @@ close all;
 
 %% Pulse shape & Variable ini
 MAIN          = CPM_Main_Functions_EuclideanDistance;
-pulse         = 1;   % 1 -> lorentzian pulse
+pulse         = 4;   % 1 -> lorentzian pulse
                      % 2 -> GMSK pulse BT = 0.3
                      % 3 -> LRC pulse
                      % 4 -> LREC pulse                        
-L             = 4;  % Pulse length            
+L             = 1;  % Pulse length            
                      % 1  -> Full response
                      % >1 -> Partial response                   
-Fs            = 128; % Sampling frequency 
+Fs            = 64; % Sampling frequency 
 Ts            = 1/Fs;% Sampling Time
-M             = 2^2; % M_array symbols used
+M             = 2^1; % M_array symbols used
                      % 2 -> Binary
 h_min  = 0.02;       % hmin should be taked higher than 0 (it can be qual to 0 for the Upper Bound), 
                      % so the calculation of dmin don't take all combination for h =0; (for h=0 the simulation will take all the ram)
-h_max  = 2.5;
+h_max  = 1.2;
 h_max  = round(h_max,1); % Push h_max to take only one number after the decimal point
 deltah = 0.01;
 %% Main code
@@ -105,9 +105,9 @@ end
 dB_min = min(dB,[],1);                         % Take the minimum dB from all combination created, see Figure 3.11 Book page 75.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Minimum Euclidien Distnace -> (Book: Digital Phase Modulation page: 463-464 - Paper: CPM--Part II: Partial Response Page: 215)
+% Minimum Euclidien Distance -> (Book: Digital Phase Modulation page: 463-464 - Paper: CPM--Part II: Partial Response Page: 215)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Nmax                 = 10;                       % Maximum number of observation symbols
+Nmax                 = 5;                       % Maximum number of observation symbols
 dmin                 = 10^5*ones(1,length(H));  
 gamma_0              = 2;
 gamma_1              = 0;
