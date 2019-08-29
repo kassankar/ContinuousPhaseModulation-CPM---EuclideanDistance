@@ -13,11 +13,12 @@ L             = 4;  % Pulse length
                      % >1 -> Partial response                   
 Fs            = 128; % Sampling frequency 
 Ts            = 1/Fs;% Sampling Time
-M             = 4;   % M_array symbols used
+M             = 2^2; % M_array symbols used
                      % 2 -> Binary
 h_min  = 0.02;       % hmin should be taked higher than 0 (it can be qual to 0 for the Upper Bound), 
                      % so the calculation of dmin don't take all combination for h =0; (for h=0 the simulation will take all the ram)
 h_max  = 2.5;
+h_max  = round(h_max,1); % Push h_max to take only one number after the decimal point
 deltah = 0.01;
 %% Main code
 
@@ -118,7 +119,9 @@ j = 1;
 N                    = 1;
 scratch_pad_old      = zeros(1,N);
 scratch_pad_New      = zeros(1,N);
-while(h_min<h_max  ) %% add deltah for h go to 1.5
+h_loop               = 1;                       % Used to stop the while itteration of h;
+h_itt_nb             = h_max/deltah;            % Number of itterations needed to count all hs
+while(h_loop<h_itt_nb)
     %%%%%%%%%%%%%%%%%%%Betta%%%%%%%%%%%%%%%%%%%%%%%%%
     gamma_s       = upsample (gamma_0,Fs);
     t_seq         = 0:Ts:length(gamma_0)+Ts;           
@@ -139,6 +142,7 @@ while(h_min<h_max  ) %% add deltah for h go to 1.5
             sprintf('N is %d, h is %f, dmin is %f \n',N,h_min,dmin(i))
             if(Nmax==1)
                 h_min                = h_min +deltah;
+                h_loop               = h_loop +1;
                 i                    = i+1;
                 scratch_pad_old      = zeros(1,N);
                 j                    = 1;
@@ -207,6 +211,7 @@ while(h_min<h_max  ) %% add deltah for h go to 1.5
     
     end
     h_min                = h_min +deltah;
+    h_loop               = h_loop +1;
     i                    = i+1;
     N                    = 1;
     scratch_pad_old      = zeros(1,N);
