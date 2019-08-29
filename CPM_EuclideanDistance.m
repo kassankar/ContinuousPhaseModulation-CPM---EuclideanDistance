@@ -8,12 +8,12 @@ pulse         = 4;   % 1 -> lorentzian pulse
                      % 2 -> GMSK pulse BT = 0.3
                      % 3 -> LRC pulse
                      % 4 -> LREC pulse                        
-L             = 1;  % Pulse length            
+L             = 1;   % Pulse length            
                      % 1  -> Full response
                      % >1 -> Partial response                   
-Fs            = 64; % Sampling frequency 
+Fs            = 64;  % Sampling frequency 
 Ts            = 1/Fs;% Sampling Time
-M             = 2^1; % M_array symbols used
+M             = 2^1; % M_ary symbols used
                      % 2 -> Binary
 h_min  = 0.02;       % hmin should be taked higher than 0 (it can be qual to 0 for the Upper Bound), 
                      % so the calculation of dmin don't take all combination for h =0; (for h=0 the simulation will take all the ram)
@@ -243,6 +243,6 @@ xlabel('modulation index (h)','FontName','Arial','FontSize',12)
 ylabel('d^2(h)','FontName','Arial','FontSize',12)
 legend('d_{B}^2(h)','dmin^2(h)','FontName','Arial','FontSize',12)
 M_string = num2str(M);
-title(strcat('M-array =',M_string));
+title(strcat('M-ary =',M_string));
 box on;
 set(gca,'GridAlpha',0.35);
