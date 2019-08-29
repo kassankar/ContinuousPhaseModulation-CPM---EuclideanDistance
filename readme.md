@@ -1,4 +1,4 @@
-# ContinuousPhaseModulation (CPM) - EuclideanDistance
+﻿# ContinuousPhaseModulation (CPM) - EuclideanDistance
 
 A Matlab code for the calculation of the minimum squared Euclidean distance ($d_{min}^{2}$), based on the algorithm found in the Book: __Digital Phase Modulation__ page 463-464, for different types of CPM signals (GMSK-RECT-RC....).
 
@@ -39,7 +39,7 @@ h_max         = 1.2;
 Nmax          = 5;
 ````
 Results Plot:
-![Demo #2](Figures/EuclideanDistance_Rec_N5.eps )
+![](Figures/EuclideanDistance_Rec_N5.png?raw=true)
 ## Warning
 
 ## Contributing ?
