@@ -1,6 +1,6 @@
 ﻿# ContinuousPhaseModulation (CPM) - EuclideanDistance
 
-A Matlab code for the calculation of the minimum squared Euclidean distance ($d_{min}^{2}$), based on the algorithm found in the Book: __Digital Phase Modulation__ page 463-464, for different types of CPM signals (GMSK-RECT-RC....).
+A Matlab code for the calculation of the minimum squared Euclidean distance (d_min^2), based on the algorithm found in the Book: __Digital Phase Modulation__ page 463-464, for different types of CPM signals (GMSK-RECT-RC....).
 
 
 # How to cite this Work ?
@@ -20,8 +20,8 @@ A Matlab code for the calculation of the minimum squared Euclidean distance ($d_
 6. Change the pulse length by changing the variable `L`
 7. Select the sampling frequency by changing the variable `Fs` (Usually 64 is high enough)
 8. Select M-ary by changing the the `M` ( e.g M=2 for Binary)
-9. Increase the variable `h_max` to increase the modulation index domain ($h$) in the plot figure.
-10. Select the number of observation symbols ($N$)  ( increasing N-> dmin appraoch the upper bound)
+9. Increase the variable `h_max` to increase the modulation index domain (h) in the plot figure.
+10. Select the number of observation symbols (N)  ( increasing N-> dmin appraoch the upper bound)
 	* Go to section __Main code__ to __Minimum Euclidien Distance__ part.
 	* Select the variable name `Nmax`
 
