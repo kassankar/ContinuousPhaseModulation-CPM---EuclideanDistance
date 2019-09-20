@@ -4,7 +4,7 @@ close all;
 
 %% Pulse shape & Variable ini
 MAIN          = CPM_Main_Functions_EuclideanDistance;
-pulse         = 4;   % 1 -> lorentzian pulse
+pulse         = 1;   % 1 -> lorentzian pulse
                      % 2 -> GMSK pulse BT = 0.3
                      % 3 -> LRC pulse
                      % 4 -> LREC pulse                        
@@ -17,12 +17,12 @@ M             = 2^1; % M_ary symbols used
                      % 2 -> Binary
 h_min  = 0.02;       % hmin should be taked higher than 0 (it can be qual to 0 for the Upper Bound), 
                      % so the calculation of dmin don't take all combination for h =0; (for h=0 the simulation will take all the ram)
-h_max  = 1.2;
+h_max  = 2;
 h_max  = round(h_max,1); % Push h_max to take only one number after the decimal point
-deltah = 0.01;
+deltah = 0.02;
 %% Main code
 
-width = 0.37;        % This variable is used for Lorentzian Pulse only. (Not be used for pulse # 1)
+width = 0.1;        % This variable is used for Lorentzian Pulse only. (Not be used for pulse # 1)
 [g_t,q_t] = MAIN.CREATECPMPULSE(pulse,L,width,Fs); % Function return the CPM pulse and phase.
                                                    % g_t = g(t) is the CPM pulse shape.
                                                    % q_t -> is the phase, integral of g_t.
@@ -107,7 +107,7 @@ dB_min = min(dB,[],1);                         % Take the minimum dB from all co
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Minimum Euclidien Distance -> (Book: Digital Phase Modulation page: 463-464 - Paper: CPM--Part II: Partial Response Page: 215)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Nmax                 = 5;                       % Maximum number of observation symbols
+Nmax                 = 30;                       % Maximum number of observation symbols
 dmin                 = 10^5*ones(1,length(H));  
 gamma_0              = 2;
 gamma_1              = 0;
@@ -119,9 +119,7 @@ j = 1;
 N                    = 1;
 scratch_pad_old      = zeros(1,N);
 scratch_pad_New      = zeros(1,N);
-h_loop               = 1;                       % Used to stop the while itteration of h;
-h_itt_nb             = h_max/deltah;            % Number of itterations needed to count all hs
-while(h_loop<h_itt_nb)
+for i = 1:length(H)
     %%%%%%%%%%%%%%%%%%%Betta%%%%%%%%%%%%%%%%%%%%%%%%%
     gamma_s       = upsample (gamma_0,Fs);
     t_seq         = 0:Ts:length(gamma_0)+Ts;           
@@ -142,7 +140,6 @@ while(h_loop<h_itt_nb)
             sprintf('N is %d, h is %f, dmin is %f \n',N,h_min,dmin(i))
             if(Nmax==1)
                 h_min                = h_min +deltah;
-                h_loop               = h_loop +1;
                 i                    = i+1;
                 scratch_pad_old      = zeros(1,N);
                 j                    = 1;
@@ -211,7 +208,6 @@ while(h_loop<h_itt_nb)
     
     end
     h_min                = h_min +deltah;
-    h_loop               = h_loop +1;
     i                    = i+1;
     N                    = 1;
     scratch_pad_old      = zeros(1,N);
@@ -227,7 +223,7 @@ while(h_loop<h_itt_nb)
 end
 
 
-dmin    = [0 dmin];                             % Correction to start the plot from zero.
+dmin    = [0 dmin(1:length(H))];                             % Correction to start the plot from zero.
 dB_min  = [0 dB_min];
 H       = [0 H];
 
