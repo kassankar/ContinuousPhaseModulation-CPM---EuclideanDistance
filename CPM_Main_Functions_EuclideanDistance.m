@@ -54,7 +54,6 @@ disp('no pulses for >4')
 
 end
 end
-
 function [M, I] = PERMUREPET(V, N, K)
 % PERMN - permutations with repetition
 %   Using two input variables V and N, M = PERMN(V,N) returns all

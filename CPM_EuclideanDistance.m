@@ -1,25 +1,24 @@
 clc;
 clear;
 close all;
-
 %% Pulse shape & Variable ini
 MAIN          = CPM_Main_Functions_EuclideanDistance;
-pulse         = 1;   % 1 -> lorentzian pulse
+pulse         = 3;   % 1 -> lorentzian pulse
                      % 2 -> GMSK pulse BT = 0.3
                      % 3 -> LRC pulse
                      % 4 -> LREC pulse                        
-L             = 1;   % Pulse length            
+L             = 3;   % Pulse length            
                      % 1  -> Full response
                      % >1 -> Partial response                   
 Fs            = 64;  % Sampling frequency 
 Ts            = 1/Fs;% Sampling Time
-M             = 2^1; % M_ary symbols used
+M             = 2^2; % M_ary symbols used
                      % 2 -> Binary
-h_min  = 0.02;       % hmin should be taked higher than 0 (it can be qual to 0 for the Upper Bound), 
+h_min  = 0.1;        % hmin should be taked higher than 0 (it can be qual to 0 for the Upper Bound), 
                      % so the calculation of dmin don't take all combination for h =0; (for h=0 the simulation will take all the ram)
 h_max  = 2;
 h_max  = round(h_max,1); % Push h_max to take only one number after the decimal point
-deltah = 0.02;
+deltah = 0.01;
 %% Main code
 
 width = 0.1;        % This variable is used for Lorentzian Pulse only. (Not be used for pulse # 1)
@@ -33,7 +32,7 @@ width = 0.1;        % This variable is used for Lorentzian Pulse only. (Not be u
 H      = h_min:deltah:h_max;
 gamma0 = 2*(M-1);
 
-
+gamma  = zeros(1,length(M));
 for i = 1:M
     gamma(i) = 2*(M-i);                    % Create gamma_i (see page 212 from Paper)
 end
@@ -41,6 +40,9 @@ end
 %%%%%%%%%%%%%%%%%%%
 % For L > 1
 %%%%%%%%%%%%%%%%%%%
+if(isrow(gamma)==0)
+    gamma = gamma.';
+end
 if (L ~= 1)
     gamma_pn  = [gamma -gamma(1:end-1)];   % take all positive and negative values from gamma 
     v         = sort(gamma_pn);            
@@ -65,7 +67,7 @@ for i = 1:length(comb)
         comb_s0(j,:) = comb(i,1:end);         % Remove all combination with sum #0 (Book page 74)
     end
 end
-
+dB       = zeros(length(comb_s0(1:end,1)),length(H));
 add_zero = zeros(length(comb_s0(1:end,1)),N-(I+1)); % add zeros at the end for t>L+1 we have zeros
 comb_s0  = [comb_s0 add_zero];
 for j= 1:length(comb_s0(1:end,1))
@@ -89,6 +91,7 @@ else
     for i = 1:M
     gamma(i) = 2*(M-i);
     end 
+dB        = zeros(length(gamma),length(H));
 gamma = nonzeros(gamma);
 for j = 1:length(gamma)
 for i = 1:length(H)
@@ -119,7 +122,7 @@ j = 1;
 N                    = 1;
 scratch_pad_old      = zeros(1,N);
 scratch_pad_New      = zeros(1,N);
-for i = 1:length(H)
+while(true)
     %%%%%%%%%%%%%%%%%%%Betta%%%%%%%%%%%%%%%%%%%%%%%%%
     gamma_s       = upsample (gamma_0,Fs);
     t_seq         = 0:Ts:length(gamma_0)+Ts;           
@@ -158,7 +161,7 @@ for i = 1:length(H)
     while N_loop > 0    
     gamma_1       = scratch_pad_New(spdn_y,1:end);
     gamma_s       = upsample ([gamma_1 gamma_N_1],Fs);
-    t_seq         = 0:Ts:(length(gamma_1)+1)+Ts;       % + Ts optimization for the sum or trapz (so we don't get dmin = 0)     
+    t_seq         = 0:Ts:(length(gamma_1)+1)+Ts;       % + Ts optimization for the sum or trapz (so we don't get dmin = 0), not important     
     S_N           = conv(gamma_s,g_t);
     S_N           = S_N(1:length(t_seq));
     Phi_N         = cumsum(S_N)*Ts;
@@ -219,6 +222,10 @@ for i = 1:length(H)
             end
     else
     gamma_0 = gamma_0 +2;
+    end
+    
+    if(i>length(H))
+        break;                                               % Go out of the while loop after passing by all modualtion index h
     end
 end
 
