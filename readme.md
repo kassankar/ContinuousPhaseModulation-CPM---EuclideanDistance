@@ -4,6 +4,20 @@ A Matlab code for the calculation of the minimum squared Euclidean distance (d_m
 
 
 # How to cite this Work ?
+If you use this package for your own work, please consider citing it with [this piece of BibTeX](PERvsSPEC.bib):
+
+```bibtex
+@ARTICLE{9406053,
+  author={Kassan, Karim and Farès, Haïfa and Christian Glattli, D. and Louët, Yves},
+  journal={IEEE Transactions on Communications}, 
+  title={Performance vs. Spectral Properties For Single-Sideband Continuous Phase Modulation}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1-1},
+  doi={10.1109/TCOMM.2021.3073792}
+  }
+```
 
 
 
