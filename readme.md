@@ -54,11 +54,6 @@ Nmax          = 5;
 ````
 Results Plot:
 ![](Figures/EuclideanDistance_Rec_N5.png?raw=true)
-## Warning
-
-## Contributing ?
-
-
 ## License
 © 2018-2019 Karim Kasan
 
